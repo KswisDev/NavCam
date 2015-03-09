@@ -27,24 +27,12 @@
 			}
 		</style>
 
-		<script>
-			<!-- Javascript function defining a click handler -->
-			
-			//var myVar=setInterval(function(){updateLoc()},8000);
-			
+		<script type="text/javascript">		
+			//Not Used, message div click function
 			function messageClicked() {
 				// set the message DIV text
-				document.getElementById("messageElement").innerHTML = "My text";
-				//var castleLocation = new AR.GeoLocation(52.636397, -1.136720);
-				//var imageres = new AR.ImageResource("/Images/castle.png");
-				/*alert("hi");
-				var castleLocation = new AR.GeoLocation(52.636397, -1.136720);
-				var distToCastle = curGeoLocation.distanceTo(castleLocation);
-				alert(distToCastle);*/	
+				//document.getElementById("messageElement").innerHTML = "My text";	
 			}
-			
-			//function updateLoc()
-			//{
 			
 			AR.context.onLocationChanged = function(lat, lon, alt, acc) {
 				// the current location's latitude, longitude, altitude and accuracy
@@ -95,9 +83,7 @@
 				//AR.context.onLocationChanged = null;
 				// Hide loading message
 				//document.getElementById("messageElement").style.display="none";
-
 			}
-			//}
 
 		</script>
 
@@ -107,9 +93,9 @@
 		HTML Body will be displayed on top of the Augmented Reality view.
 		A transparent background allows the AR content to be visible.
 		-->
-		<!-- Message element in the center of the HUD that is clickable. -->
-		<div id="messageElement" class="message" onClick="messageClicked();">
-				Hello World!
+
+		<div id="messageElement" class="message" >
+				Distance
 		</div>
 
 	</body>
