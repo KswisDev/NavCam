@@ -23,7 +23,6 @@
 					position:absolute;
 					width: 100%;
 					height: 10%;
-					left: 25%;
 					top: 0%;
 					}
 			}
@@ -62,7 +61,7 @@
 				rotation : 0,
 				onClick : function() {
 					$(".message").show();
-					document.getElementById("messageElement").innerHTML = distToCastle;
+					$("#messageElement").innerHTML = distToCastle + " miles";
 				}
 				});
 				
@@ -83,11 +82,6 @@
 				});
 				var myGeoObject2 = new AR.GeoObject(myGeoLocation2, {drawables: {cam: myCircle2}});
 				
-				//AR.context.onLocationChanged = null;
-				// Hide loading message
-				//document.getElementById("messageElement").style.display="none";
-				
-				$(".message").hide();
 			}
 
 		</script>
@@ -99,7 +93,7 @@
 		A transparent background allows the AR content to be visible.
 		-->
 
-		<div id="messageElement" class="message" >
+		<div id="messageElement" class="message" style="display:none">
 				Distance
 		</div>
 
