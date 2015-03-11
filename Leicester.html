@@ -8,6 +8,8 @@
 		<script src="architect://architect.js"></script>
 		<!-- Include the ARchitect Desktop Engine for testing on a desktop browser-->
 		<script type="text/javascript" src="../ade.js"></script>
+		<!-- jQuery! -->
+		<script src="jquery-1.11.2.min.js"></script>
 		
 		<style type="text/css">
 			/* CSS Style for the message DIV that displays our message */
@@ -19,10 +21,10 @@
 					text-align: center;
 				   
 					position:absolute;
-					width: 50%;
+					width: 100%;
 					height: 10%;
 					left: 25%;
-					top: 45%;
+					top: 0%;
 					}
 			}
 		</style>
@@ -60,6 +62,7 @@
 				rotation : 0,
 				onClick : function() {
 					document.getElementById("messageElement").innerHTML = distToCastle;
+					$(".message").show();
 				}
 				});
 				
@@ -83,6 +86,8 @@
 				//AR.context.onLocationChanged = null;
 				// Hide loading message
 				//document.getElementById("messageElement").style.display="none";
+				
+				$(".message").hide();
 			}
 
 		</script>
