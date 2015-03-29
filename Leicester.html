@@ -14,7 +14,6 @@
 		<style type="text/css">
 			/* CSS Style for the message DIV that displays our message */
 					.message { 
-					border-radius: 2em;
 					border: solid 1px #6d6d6d;
 					background-color: rgba(255,255,255,0.5);
 					color: black;
@@ -25,64 +24,72 @@
 					height: 10%;
 					top: 0%;
 					}
+					
+					body {
+					margin: 0px;
+					}
 			}
 		</style>
 
 		<script type="text/javascript">		
-			//Not Used, message div click function
-			function messageClicked() {
-				// set the message DIV text
-				//document.getElementById("messageElement").innerHTML = "My text";	
+		var type = 0;	
+		AR.context.onLocationChanged = function(lat, lon, alt, acc) {
+			// the current location's latitude, longitude, altitude and accuracy
+			// are passed in by the ARchitect
+			
+			var curGeoLocation = new AR.GeoLocation(lat,lon,alt);
+			
+			/*Set locations and distances*/
+			var highcrossLocation = new AR.GeoLocation(52.636397, -1.136720);
+			var trainStationLocation = new AR.GeoLocation(52.631101, -1.124760); //52.631101, -1.124760
+			var distToHighcross = Math.round(curGeoLocation.distanceTo(highcrossLocation));
+			var distToStation = Math.round(curGeoLocation.distanceTo(trainStationLocation));
+			
+			//If banner on for set location, update the banner with new distance 
+			if (type == 1){
+				document.getElementById("messageElement").innerHTML = distToHighcross + " meters";
+			}
+			else if(type == 2) {
+				document.getElementById("messageElement").innerHTML = distToStation + " meters";
 			}
 			
-			AR.context.onLocationChanged = function(lat, lon, alt, acc) {
-				// the current location's latitude, longitude, altitude and accuracy
-				// are passed in by the ARchitect
-				
-				var curGeoLocation = new AR.GeoLocation(lat,lon,alt);
-				
-				// Create a new RelativeLocation 10 meters north of the current location.
-				// RelativeLocations allow you to place objects relative to others.
-				// In our case, relative to the current user location.
-				//var myGeoLocation = new AR.RelativeLocation(null, 300, 0, 0);
-				var myGeoLocation2 = new AR.RelativeLocation(null, 0, 500, 0);
-				
-				/*Set to location of highcross*/
-				var castleLocation = new AR.GeoLocation(52.636397, -1.136720);
-				var distToCastle = curGeoLocation.distanceTo(castleLocation);
-				
-				
-				
-				//Create image resource, points to our Image
-				var imageres = new AR.ImageResource("/Images/castle.png");
-				// Create an imagedrawable, using our image resource to point to our image
-				var highCross = new AR.ImageDrawable(imageres, 5, {
-				offsetX : 1,
-				rotation : 0,
-				onClick : function() {
-					$(".message").show();
-					document.getElementById("messageElement").innerHTML = distToCastle + " meters";
-				}
-				});
-				
-				// Create an orange circle with a radius of 5
-				//var myCircle = new AR.Circle(4, {style: {fillColor: '#FFF000'}});
-				var myCircle2 = new AR.Circle(2, 
-				{style: {fillColor: '#AAA000'},
-				onClick : function() {
-					myCircle2.radius *= 2;
-					}
-				});
-				
-				// Create the GeoObject that puts it all together.
-				// The GeoObject will be placed at the previously created GeoLocation and an orange Circle
-				// will appear at that location. By creating the object it will be immediately visible.
-				var myCastleObject = new AR.GeoObject(castleLocation, {
-				drawables: {cam: highCross},
-				});
-				var myGeoObject2 = new AR.GeoObject(myGeoLocation2, {drawables: {cam: myCircle2}});
-				
+			//Create image resource, points to our Image
+			var imgHighcross = new AR.ImageResource("/Images/castle.png");
+			var imgStation = new AR.ImageResource("/Images/station.jpg");
+			
+			// Create an imagedrawable, using our image resource to point to our image
+			var highCross = new AR.ImageDrawable(imgHighcross, 5, {
+			offsetX : 1,
+			rotation : 0,
+			onClick : function() {
+				$(".message").toggle();
+				document.getElementById("messageElement").innerHTML = distToHighcross + " meters";
+				type = 1;
 			}
+			});
+			
+			var trainStation = new AR.ImageDrawable(imgStation, 5, {
+			offsetX : 1,
+			rotation : 0,
+			onClick : function() {
+				$(".message").toggle();
+				document.getElementById("messageElement").innerHTML = distToStation + " meters";
+				type = 2;
+			}
+			});
+							
+			// Create the GeoObject that puts it all together.
+			// The GeoObject will be placed at the previously created GeoLocation and an orange Circle
+			// will appear at that location. By creating the object it will be immediately visible.
+			var highcrossObject = new AR.GeoObject(highcrossLocation, {
+			drawables: {cam: highCross},
+			});
+			
+			var stationObject = new AR.GeoObject(trainStationLocation, {
+			drawables: {cam: trainStation},
+			});
+			
+		}
 
 		</script>
 
@@ -99,3 +106,29 @@
 
 	</body>
 </html>
+
+<!-- Example code 
+ 
+ 				// Create a new RelativeLocation 10 meters north of the current location.
+				// RelativeLocations allow you to place objects relative to others.
+				// In our case, relative to the current user location.
+				//var myGeoLocation = new AR.RelativeLocation(null, 300, 0, 0);
+				var myGeoLocation2 = new AR.RelativeLocation(null, 0, 500, 0);
+				
+				// Create an orange circle with a radius of 5
+				//var myCircle = new AR.Circle(4, {style: {fillColor: '#FFF000'}});
+				var myCircle2 = new AR.Circle(2, 
+				{style: {fillColor: '#AAA000'},
+				onClick : function() {
+					myCircle2.radius *= 2;
+					}
+				});
+				
+				var myGeoObject2 = new AR.GeoObject(myGeoLocation2, {drawables: {cam: myCircle2}});
+				
+			//Not Used, message div click function
+			function messageClicked() {
+				// set the message DIV text
+				//document.getElementById("messageElement").innerHTML = "My text";	
+			}
+-->
